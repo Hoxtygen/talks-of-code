@@ -1,24 +1,7 @@
 import moment from "moment";
 import Link from "next/link";
 import React from "react";
-
-interface PostProps {
-  post: {
-    title: string;
-    slug: string;
-    createdAt: string;
-    excerpt: string;
-    featuredImage: {
-      url: string;
-    };
-    author: {
-      name: string;
-      photo: {
-        url: string;
-      };
-    };
-  };
-}
+import { PostProps } from "../typedef";
 
 export default function PostCard({ post }: PostProps) {
   return (
