@@ -20,6 +20,7 @@ export interface PostProps {
 			};
 		};
 	};
+	content?: any
 }
 
 export interface RecentPostProps {
@@ -54,4 +55,17 @@ export interface PostNodeProps {
 			};
 		};
 	};
+}
+
+export interface AuthorProp {
+	author: {
+		name: string
+		bio: string
+		id: string
+		photo: {
+			url: string
+		}
+
+	}
+
 }

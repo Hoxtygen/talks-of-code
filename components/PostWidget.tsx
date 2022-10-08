@@ -8,7 +8,7 @@ export default function PostWidget({ categories, slug }: PostWidgetProps) {
   const [relatedPosts, setRelatedPosts] = useState<RecentPostProps[]>([]);
   useEffect(() => {
     if (slug) {
-      getSimilarPosts(slug, categories).then((result) =>
+      getSimilarPosts(categories, slug).then((result) =>
         setRelatedPosts(result)
       );
     } else {
