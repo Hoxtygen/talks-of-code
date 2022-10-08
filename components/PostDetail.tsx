@@ -3,7 +3,7 @@ import React from "react";
 import { PostProps } from "../typedef";
 
 export default function PostDetail({ post }: PostProps) {
-  const getContentFragment = (index, text, obj, type?) => {
+  const getContentFragment = (index: number, text, obj, type?) => {
     let modifiedText = text;
 
     if (obj) {
@@ -40,9 +40,25 @@ export default function PostDetail({ post }: PostProps) {
       case "heading-four":
         return (
           <h4 key={index} className="text-md font-semibold mb-4">
-            {modifiedText.map((item, i) => (
-              <React.Fragment key={i}>{item}</React.Fragment>
-            ))}
+            {modifiedText.map(
+              (
+                item:
+                  | string
+                  | number
+                  | boolean
+                  | React.ReactElement<
+                      any,
+                      string | React.JSXElementConstructor<any>
+                    >
+                  | React.ReactFragment
+                  | React.ReactPortal
+                  | null
+                  | undefined,
+                i: React.Key | null | undefined
+              ) => (
+                <React.Fragment key={i}>{item}</React.Fragment>
+              )
+            )}
           </h4>
         );
       case "image":
@@ -101,12 +117,14 @@ export default function PostDetail({ post }: PostProps) {
           </div>
         </div>
         <h1 className="mb-8 text-3xl font-semibold">{post.title}</h1>
-        {post.content.raw.children.map((typeObj, index) => {
-          const children = typeObj.children.map((item, itemIndex) =>
-            getContentFragment(itemIndex, item.text, item)
-          );
-          return getContentFragment(index, children, typeObj, typeObj.type);
-        })}
+        {post.content.raw.children.map(
+          (typeObj: { children: any[]; type: any }, index: any) => {
+            const children = typeObj.children.map((item, itemIndex) =>
+              getContentFragment(itemIndex, item.text, item)
+            );
+            return getContentFragment(index, children, typeObj, typeObj.type);
+          }
+        )}
       </div>
     </div>
   );
