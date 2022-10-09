@@ -69,3 +69,27 @@ export interface AuthorProp {
 	}
 
 }
+
+export interface CommentProp {
+	postComments: {
+		id: string
+		name: string
+		createdAt: string
+		comment: string
+
+	}
+}
+
+export interface SingleCommentProp {
+	id: string
+	name: string
+	createdAt: string
+	comment: string
+}
+
+export interface NewCommentProps {
+	name: string;
+	email: string;
+	comment: string;
+	slug: string;
+}

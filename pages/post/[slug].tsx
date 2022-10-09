@@ -1,4 +1,5 @@
 import { GetStaticProps } from "next";
+import { ParsedUrlQuery } from "querystring";
 import React from "react";
 import {
   PostWidget,
@@ -10,7 +11,7 @@ import {
   Comment,
 } from "../../components";
 import { getPosts, getPostDetails } from "../../services";
-import { PostNodeProps } from "../../typedef";
+import { CategoryProp } from "../../typedef";
 
 export default function PostDetails({ post }) {
   return (
@@ -20,13 +21,15 @@ export default function PostDetails({ post }) {
           <PostDetail post={post} />
           <Author author={post.author} />
           <CommentsForm slug={post.slug} />
-          <Comments post={post.slug} />
+          <Comments postComments={post.comments} />
         </div>
         <div className="col-span-1 lg:col-span-4">
           <div className="relative lg:sticky top-8">
             <PostWidget
               slug={post.slug}
-              categories={post.categories.map((category) => category.slug)}
+              categories={post.categories.map(
+                (category: CategoryProp) => category.slug
+              )}
             />
             <Categories />
           </div>
@@ -36,7 +39,8 @@ export default function PostDetails({ post }) {
   );
 }
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const data = await getPostDetails(params.slug);
+  const slug: string = (params as ParsedUrlQuery).slug;
+  const data = await getPostDetails(slug);
   return {
     props: { post: data },
   };
@@ -46,6 +50,6 @@ export async function getStaticPaths() {
   const posts = await getPosts();
   return {
     paths: posts.map(({ node: { slug } }) => ({ params: { slug } })),
-    fallback: false,
+    fallback: true,
   };
 }

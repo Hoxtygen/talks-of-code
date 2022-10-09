@@ -1,5 +1,5 @@
 import { request, gql } from "graphql-request";
-import { CategoryProp } from "../typedef";
+import { NewCommentProps } from "../typedef";
 
 const graphqlAPI = process.env.NEXT_PUBLIC_GRAPHCMS_ENDPOINT;
 
@@ -122,18 +122,21 @@ export const getPostDetails = async (slug: string) => {
         content {
           raw
         }
+        comments {
+          id
+          name
+          email
+          comment
+        }
 
     }
-     
-    
-  
 	}
 	`
   const result = await request(graphqlAPI, query, { slug });
   return result.post;
 }
 
-export const submitComment = async (obj) => {
+export const submitComment = async (obj: NewCommentProps) => {
   const result = await fetch('/api/comments', {
     method: 'POST',
     headers: {
@@ -143,4 +146,21 @@ export const submitComment = async (obj) => {
   });
 
   return result.json();
+};
+
+
+export const getComments = async (slug: string) => {
+  const query = gql`
+    query GetComments($slug:String!) {
+      comments(where: {post: {slug:$slug}}){
+        comment
+        createdAt
+        id
+        name
+      }
+    }
+  `;
+
+  const result = await request(graphqlAPI, query, { slug });
+  return result.comments;
 };

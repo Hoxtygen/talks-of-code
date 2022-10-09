@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from "react";
 import { submitComment } from "../services";
 
-export default function CommentsForm({ slug }: string) {
+export default function CommentsForm({ slug }: { slug: string }) {
   const [error, setError] = useState(false);
   const [localStorage, setLocalStorage] = useState(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -40,7 +40,6 @@ export default function CommentsForm({ slug }: string) {
   const handlePostSubmission = () => {
     setError(false);
     const { name, email, comment, storeData } = formData;
-    console.log("formData:", formData);
     if (!name || !email || !comment) {
       setError(true);
       return;
@@ -62,7 +61,6 @@ export default function CommentsForm({ slug }: string) {
 
     submitComment(commentObj).then((res) => {
       if (res.createComment) {
-        console.log("feedback:", res.createComment);
         if (!storeData) {
           formData.name = "";
           formData.email = "";
