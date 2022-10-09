@@ -29,6 +29,31 @@ export default function PostDetail({ post }: PostProps) {
             ))}
           </h3>
         );
+      case "numbered-list":
+        return (
+          <ul key={index}>
+            {modifiedText.map((item, i) => {
+              // console.log("ulItem:", item);
+              return <React.Fragment key={i}>{item}</React.Fragment>;
+            })}
+          </ul>
+        );
+      case "list-item":
+        return (
+          <li key={index}>
+            {modifiedText.map((item, i) => (
+              <React.Fragment key={i}>{item}</React.Fragment>
+            ))}
+          </li>
+        );
+      case "list-item-child":
+        return (
+          <React.Fragment key={index}>
+            {modifiedText.map((item, i) => (
+              <React.Fragment key={i}>{item}</React.Fragment>
+            ))}
+          </React.Fragment>
+        );
       case "paragraph":
         return (
           <p key={index} className="mb-8">
